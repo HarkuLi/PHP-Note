@@ -123,4 +123,12 @@
             <?php
             function test(boolean $param) {}
                 test(true); // fatal error
-            ?>
+            ?>
+	    
+## Include
+
+* The include and require statements are **identical**, except upon **failure**.
+    * require: produce a fatal error (E_COMPILE_ERROR) and stop the script
+    * include: only produce a warning (E_WARNING) and the script will continue
+* include_once / require_once can avoid repeating include.
+    
