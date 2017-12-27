@@ -49,7 +49,7 @@
         foo(); // x = 1
         foo(); // x = 2
 
-### This, Self, and Static
+### $this, self::, and static::
 
 * $this
     * **$this-> will try to call private methods from the same scope.**
@@ -102,9 +102,9 @@
                 Call to undefined method A::fromWhere()
                 in class B
         
-* self
-    * Indicate the current **Class**.
-* static
+* self::
+    * Indicate the current **Class**.
+* static::
     * Indicate the **late override one**. (i.e. **Late Static Binding**)
 * e.g.
     * code:
