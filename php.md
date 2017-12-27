@@ -19,7 +19,6 @@
 		
         // x can't be accessed outside the function
         echo $x;
-        ?>
 
 ### Global:
 
@@ -35,7 +34,6 @@
         }
 		
         echo $x;
-        ?>
 
 ### Static:
 
@@ -50,7 +48,99 @@
 		
         foo(); // x = 1
         foo(); // x = 2
-        ?>
+
+### This, Self, and Static
+
+* $this
+    * **$this-> will try to call private methods from the same scope.**
+    * otherwise, $this indicates the current **Object**.
+    * e.g.
+        * code:
+        
+                <?php
+                class A
+                {
+                    private function fromWhere()  //scope A
+                    {
+                        echo "in class " . __CLASS__ . "<br>";
+                    }
+                    
+                    public function test()  //scope A
+                    {
+                        $this->fromWhere();
+                        self::fromWhere();
+                        static::fromWhere();
+                    }
+                }
+                
+                class B extends A
+                {
+                    public function fromWhere()  //scope B
+                    {
+                        echo "in class " . __CLASS__ . "<br>";
+                    }
+                }
+                
+                $b = new B();
+                $b->test();  //call test() in scope A, and then private fromWhere() in scope A is called
+                
+        * result:
+        
+                in class A
+                in class A
+                in class B
+        
+        * if change fromWhere() in class A to public, the result would be:
+        
+                in class B
+                in class A
+                in class B
+        
+        * if remove fromWhere() in class A, the result would be:
+        
+                in class B
+                Call to undefined method A::fromWhere()
+                in class B
+        
+* self
+    * Indicate the current **Class**.
+* static
+    * Indicate the **late override one**. (i.e. **Late Static Binding**)
+* e.g.
+    * code:
+    
+            <?php
+            class A
+            {
+                public function fromWhere()
+                {
+                    echo "in class " . __CLASS__ . "<br>";
+                }
+            
+                public function test()
+                {
+                    $this->fromWhere();
+                    self::fromWhere();
+                    static::fromWhere();
+                }
+            }
+        
+            class B extends A
+            {
+                public function fromWhere()
+                {
+                    echo "in class " . __CLASS__ . "<br>";
+                }
+            }
+            
+            $b = new B();
+            $b->test();
+
+    * result:
+
+            in class B
+            in class A
+            in class B
 
 ## Data Types
 
@@ -85,6 +175,7 @@
                 $sum = bcadd(0.1, 0.2, 1);
                 echo $sum; // 0.3
                 echo ($sum === 0.3) ? "true" : "false"; // true
+		
     * [Reference](https://andy-carter.com/blog/don-t-trust-php-floating-point-numbers-when-equating)
 
 ### Logical Operators
@@ -105,7 +196,6 @@
             $str = "This is a ";
             cat_come_str($str);
             echo $str; // outputs "This is a cat."
-            ?>
 
 ## Type declarations
 
@@ -122,8 +212,7 @@
 
             <?php
             function test(boolean $param) {}
-                test(true); // fatal error
-            ?>
+            test(true); // fatal error
 	    
 ## Include
 
