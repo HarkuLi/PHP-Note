@@ -13,7 +13,6 @@
             > css
             > js
             > image
-            .htaccess
             index.php
         > vendor
         .gitignore
@@ -21,8 +20,6 @@
         
 * **[app]** keeps the core of project, like model, service, controller......
 * **[public]** keeps resources that are public to the Internet.
-    * **.htaccess** is a setting file for Apache server, You can set visibility of resources and some other rules.
-      See [here](https://httpd.apache.org/docs/current/howto/htaccess.html) for more detail.
     * **index.php** can be used for router. The code will be executed when there is no matched resource to the URI.
 * **[vendor]** keeps the libraries downloaded by Composer.
 
@@ -34,7 +31,32 @@
         php -S 0.0.0.0:[port] index.php
         
 * **index.php** can be replaced with any file as router.
+
+## Run on Apache server
+
+1. Put the project folder in the Apache root directory.
+    * On Linux, for example, is `/var/www/html`.
+2. Put .htaccess in the Apache root directory.
+    * **.htaccess** is a setting file for Apache server, You can set some rules in it.
+      See [here](https://httpd.apache.org/docs/current/howto/htaccess.html) for more detail.
+    * You need to enable mod_rewrite.
+    * For Windows, see [here](https://webdevdoor.com/php/mod_rewrite-windows-apache-url-rewriting).
+    * For Linux
+        1. Edit /etc/apache2/apache2.conf, and modify the setting of Directory /var/www/ as:
+
+                <Directory /var/www/>
+                    Options Indexes FollowSymLinks
+                    #enable AllowOverride
+                    AllowOverride All
+                    Require all granted
+                </Directory>
+
+        2. Enable mod_rewrite
         
+                sudo a2enmod rewrite
+
+3. The folder would look like
+
 ## How the project works
 
 * The role of **index.php** is like the main function in C language.
