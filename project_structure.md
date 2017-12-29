@@ -55,7 +55,26 @@
         
                 sudo a2enmod rewrite
 
-3. The folder would look like
+3. The folder `/var/www/html` would look like:
+
+        v your_project
+            > app
+            v public
+                index.php
+                ...
+            > vendor
+            .gitignore
+            ...
+        .htaccess
+
+4. In order to use index.php as router, you need to write some rules in **.htaccess** file.
+
+        # disable the function for showing content list in folders on the page
+        Options -Indexes
+        # enable the rewrite rules
+        RewriteEngine On
+        # mapping all paths to index.php
+        RewriteRule ^.*$ your_project/public/index.php [L]
 
 ## How the project works
 
@@ -92,7 +111,7 @@
 ## Autoloader
 
 * See [PSR-4](http://www.php-fig.org/psr/psr-4/) for autoloader standards
-* See an example for quick start.
+* Look at an example for quick start.
 * Suppose that we have a util called **util1**. Following is the folder structure. (See [previous part](https://github.com/HarkuLi/PHP-Note/blob/master/project_structure.md#how-the-project-works) for contents of **A.php** and **B.php**)
 
         v app
