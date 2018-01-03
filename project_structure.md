@@ -169,7 +169,7 @@
             }
         }
 
-* After editting **composer.json** run
+* After editting **composer.json**, run
 
         composer dump
         
