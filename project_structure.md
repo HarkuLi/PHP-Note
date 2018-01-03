@@ -4,11 +4,11 @@
 * After referring to some articles on the Internet, I think a possible structure would like this:
 
         v app
-            > model
-            > service
-            > controller
-            > view
-            > util
+            > Model
+            > Service
+            > Controller
+            > View
+            > Util
         v public
             > css
             > js
@@ -85,7 +85,7 @@
         * A.php
 
                 <?php
-                namespace util1;
+                namespace Util1;
                 
                 class A
                 {
@@ -95,11 +95,11 @@
         * B.php
         
                 <?php
-                namespace util1\bpart;
+                namespace Util1\Bpart;
                 
                 require_once __DIR__."/../A.php";  //ruin PSR-1-2.3.
                 
-                use util1\A as A;
+                use Util1\A as A;
                 
                 class B extends A
                 {
@@ -111,15 +111,18 @@
 ## Autoloader
 
 * See [PSR-4](http://www.php-fig.org/psr/psr-4/) for autoloader standards
+
+### Write by ourselves
+
 * Look at an example for quick start.
-* Suppose that we have a util called **util1**. Following is the folder structure. (See [previous part](https://github.com/HarkuLi/PHP-Note/blob/master/project_structure.md#how-the-project-works) for contents of **A.php** and **B.php**)
+* Suppose that we have a util called **Util1**. Following is the folder structure. (See [previous part](https://github.com/HarkuLi/PHP-Note/blob/master/project_structure.md#how-the-project-works) for contents of **A.php** and **B.php**)
 
         v app
-            v util
-                v util1
+            v Util
+                v Util1
                     autoload.php
                     A.php
-                    v bpart
+                    v Bpart
                         B.php
             ...
         v public
@@ -132,7 +135,7 @@
 * autoload.php
 
         <?php
-        namespace util1;
+        namespace Util1;
         
         spl_autoload_register(function (string $className) {
             $className = ltrim($className, __NAMESPACE__);
@@ -140,14 +143,41 @@
             require_once __DIR__ . $className . ".php";
         });
         
-* We can use **autoload.php** to require any resource in **util1** as long as we abide by PSR-4 for namespace.
-  Therefore, we can write every php files in the **util1** without using **require** or **include** explicitly
-  by putting every dependencies in the autoloader and **require** the autoloader while using the **util1**.
+* We can use **autoload.php** to require any resource in **Util1** as long as we abide by PSR-4 for namespace.
+  Therefore, we can write every php files in the **Util1** without using **require** or **include** explicitly
+  by putting every dependencies in the autoloader and **require** the autoloader while using the **Util1**.
 * e.g.
   
         <?php
         //index.php
-        require_once __DIR__."/../app/util/util1/autoload.php";
-        use util1\A as A
+        require_once __DIR__."/../app/Util/Util1/autoload.php";
+        use Util1\A as A
+        
+        $a = new A();
+        
+### Use the autoloader offered by Composer(Recommended)
+
+* Use the same project structure above for example.
+* **composer.json** (Comments are not permitted in the Json file, and here is just for explanation.)
+
+        {
+            "autoload": {
+                "psr-4": {
+                    //[namespace]: [practical location]
+                    "Util1\\": "app/Util/Util1"
+                }
+            }
+        }
+
+* After editting **composer.json** run
+
+        composer dump
+        
+  to generate autoload files.
+* **index.php**
+
+        <?php
+        require_once __DIR__."/../vendor/autoload.php";
+        use Util1\A as A
         
         $a = new A();
