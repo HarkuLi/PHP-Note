@@ -225,11 +225,12 @@
 
 * Single mark ''
     * The content inside it is common text.
-    * \ only works for \' and \\
+    * \ only works for \' and \\
 * Double mark ""
     * Variables inside it are converted to their values.
-    * e.g.
+* e.g.
 
-            <?php
-            $w = "world!!";
-            echo "Hello $w";    //print: Hello world!!
+        <?php
+        $w = "world!!";
+        echo 'Hello $w'."\n";   //print: Hello $w
+        echo "Hello $w\n";    //print: Hello world!!
