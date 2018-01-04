@@ -221,3 +221,15 @@
     * include: only produce a warning (E_WARNING) and the script will continue
 * include_once / require_once can avoid repeating include.
     
+## Quotation marks
+
+* Single mark ''
+    * The content inside it is common text.
+    * \ only works for \' and \\
+* Double mark ""
+    * Variables inside it are converted to their values.
+    * e.g.
+
+            <?php
+            $w = "world!!";
+            echo "Hello $w";    //print: Hello world!!
