@@ -146,6 +146,22 @@
 
 * The PHP `var_dump()` function returns the data type and value.
 
+### Type Casting
+
+* **int** casting from **float** performs like **floor()**.
+    * e.g.
+
+            <?php
+            $test = (int)1.4;
+            echo $test."\n";
+            $test = (int)1.5;
+            echo $test."\n";
+
+      It will print:
+      
+            1
+            1
+
 ## Constants
 
 * Constants are **automatically global** and can be used ***across the entire script***.
