@@ -285,3 +285,13 @@
   Coalescing can be chained.
   
         $user = $_GET['user'] ?? $_POST['user'] ?? 'default';
+
+## Regular Expression
+
+### `.*` and `.*?`
+
+* `*` is greedy; `*?` is non-greedy.
+* e.g. Consider a string "10100000000000100"
+    * `*` will match to the end and then backtrack until it can match 1. Therefore, you get "101000000000001" finally.
+    * `?` will match nothing and then try to match extra characters until it matches 1. Therefore, you get "101" finally.
+
