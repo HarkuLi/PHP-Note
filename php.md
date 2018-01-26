@@ -295,3 +295,17 @@
     * `*` will match to the end and then backtrack until it can match 1. Therefore, you get "101000000000001" finally.
     * `?` will match nothing and then try to match extra characters until it matches 1. Therefore, you get "101" finally.
 
+## Useful functions
+
+### nl2br()
+
+* Return string with <br /> or <br> inserted **before** all newlines (\r\n, \n\r, \n and \r).
+* e.g.
+
+        <?php
+        echo nl2br("foo\n bar");
+
+  result:
+
+        foo<br />
+         bar
