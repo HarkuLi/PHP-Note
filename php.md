@@ -264,3 +264,24 @@
   
         text/plain
         text/plain
+
+## Null coalescing operator
+
+* The null coalescing operator `??` has been added as syntactic sugar in **PHP 7** for null/exist judgement.
+  It returns its first operand if it exists and is not NULL.
+* commmon case:
+
+        <?php
+        if (isset($_GET['user'])) {
+            $user = $_GET['user'];
+        } else {
+            $user = 'default';
+        }
+
+  after PHP 7, we can do this with
+
+        $user = $_GET['user'] ?? 'default';
+        
+  Coalescing can be chained.
+  
+        $user = $_GET['user'] ?? $_POST['user'] ?? 'default';
