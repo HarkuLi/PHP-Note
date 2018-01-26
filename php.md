@@ -250,3 +250,17 @@
         $w = "world!!";
         echo 'Hello $w'."\n";   //print: Hello $w
         echo "Hello $w\n";    //print: Hello world!!
+
+## mime_content_type
+
+* This function will return "text/plain" for css and js files instead of "test/css" or "text/javascript".
+* e.g.
+
+        <?php
+        echo mime_content_type("test.js")."\n";
+        echo mime_content_type("test.css")."\n";
+        
+  result:
+  
+        text/plain
+        text/plain
