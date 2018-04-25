@@ -299,7 +299,7 @@
 
 ### nl2br()
 
-* Return string with <br /> or <br> inserted **before** all newlines (\r\n, \n\r, \n and \r).
+* Return string with `<br />` or `<br>` inserted **before** all newlines (\r\n, \n\r, \n and \r).
 * e.g.
 
         <?php
