@@ -286,6 +286,30 @@
   
         $user = $_GET['user'] ?? $_POST['user'] ?? 'default';
 
+## Splat operator
+
+Arrays and Traversable objects can be unpacked into argument lists by using the ... operator.
+
+* Version: PHP 5.6+
+
+* Function declaration
+
+        <?php
+        function add(...$input)
+        {
+            return array_sum($input);
+        }
+        var_dump(add(1, 2, 3) === 6);
+
+* Calling function
+
+        <?php
+        function add($a, $b, $c)
+        {
+            return $a + $b + $c;
+        }
+        var_dump(add(1, ...[2, 3]) === 6);
+
 ## Regular Expression
 
 ### `.*` and `.*?`
