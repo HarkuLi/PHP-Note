@@ -10,44 +10,50 @@
 * A variable declared within a function can only be accessed within that function.
 * e.g.
 
-        <?php
-        function foo() {
-            $x = 5; // local scope
-            echo $x;
-        }
-        foo();
-		
-        // x can't be accessed outside the function
+    ```php
+    <?php
+    function foo() {
+        $x = 5; // local scope
         echo $x;
+    }
+    foo();
+	
+    // x can't be accessed outside the function
+    echo $x;
+    ```
 
 ### Global:
 
 * A variable declared **outside** a function has a **global scope** and can ***ONLY*** be accessed **outside** a function.
 * e.g.
 
-        <?php
-        $x = 5; // global scope
+    ```php
+    <?php
+    $x = 5; // global scope
 
-        function foo() {
-            // x can't be accessed inside the function
-            echo $x;
-        }
-		
+    function foo() {
+        // x can't be accessed inside the function
         echo $x;
+    }
+	
+    echo $x;
+    ```
 
 ### Static:
 
 * The value of a local variable will be retained if using the **static** keyword.
 * e.g.
 	
-        <?php
-        function foo() {
-            static $x = 0;
-            ++$x;
-        }
-		
-        foo(); // x = 1
-        foo(); // x = 2
+    ```php
+    <?php
+    function foo() {
+        static $x = 0;
+        ++$x;
+    }
+	
+    foo(); // x = 1
+    foo(); // x = 2
+    ```
 
 ### $this, self::, and static::
 
@@ -56,91 +62,103 @@
     * otherwise, $this indicates the current **Object**.
     * e.g.
         * code:
-        
-                <?php
-                class A
-                {
-                    private function fromWhere()  //scope A
-                    {
-                        echo "in class " . __CLASS__ . "<br>";
-                    }
-                    
-                    public function test()  //scope A
-                    {
-                        $this->fromWhere();
-                        self::fromWhere();
-                        static::fromWhere();
-                    }
-                }
-                
-                class B extends A
-                {
-                    public function fromWhere()  //scope B
-                    {
-                        echo "in class " . __CLASS__ . "<br>";
-                    }
-                }
-                
-                $b = new B();
-                $b->test();  //call test() in scope A, and then private fromWhere() in scope A is called
-                
-        * result:
-        
-                in class A
-                in class A
-                in class B
-        
-        * if change fromWhere() in class A to public, the result would be:
-        
-                in class B
-                in class A
-                in class B
-        
-        * if remove fromWhere() in class A, the result would be:
-        
-                in class B
-                Call to undefined method A::fromWhere()
-                in class B
-        
-* self::
-    * Indicate the current **Class**.
-* static::
-    * Indicate the **late override one**. (i.e. **Late Static Binding**)
-* e.g.
-    * code:
-    
+
+            ```php
             <?php
             class A
             {
-                public function fromWhere()
+                private function fromWhere()  //scope A
                 {
                     echo "in class " . __CLASS__ . "<br>";
                 }
-            
-                public function test()
+                
+                public function test()  //scope A
                 {
                     $this->fromWhere();
                     self::fromWhere();
                     static::fromWhere();
                 }
             }
-        
+            
             class B extends A
             {
-                public function fromWhere()
+                public function fromWhere()  //scope B
                 {
                     echo "in class " . __CLASS__ . "<br>";
                 }
             }
             
             $b = new B();
-            $b->test();
+            $b->test();  //call test() in scope A, and then private fromWhere() in scope A is called
+            ```
 
-    * result:
+        * result:
 
+            ```
+            in class A
+            in class A
+            in class B
+            ```
+        
+        * if change fromWhere() in class A to public, the result would be:
+
+            ```
             in class B
             in class A
             in class B
+            ```
+        
+        * if remove fromWhere() in class A, the result would be:
+
+            ```
+            in class B
+            Call to undefined method A::fromWhere()
+            in class B
+            ```
+
+* self::
+    * Indicate the current **Class**.
+* static::
+    * Indicate the **late override one**. (i.e. **Late Static Binding**)
+* e.g.
+    * code:
+
+        ```php
+        <?php
+        class A
+        {
+            public function fromWhere()
+            {
+                echo "in class " . __CLASS__ . "<br>";
+            }
+        
+            public function test()
+            {
+                $this->fromWhere();
+                self::fromWhere();
+                static::fromWhere();
+            }
+        }
+    
+        class B extends A
+        {
+            public function fromWhere()
+            {
+                echo "in class " . __CLASS__ . "<br>";
+            }
+        }
+        
+        $b = new B();
+        $b->test();
+        ```
+
+    * result:
+
+        ```
+        in class B
+        in class A
+        in class B
+        ```
 
 ## Data Types
 
@@ -151,16 +169,20 @@
 * **int** casting from **float** performs like **floor()**.
     * e.g.
 
-            <?php
-            $test = (int)1.4;
-            echo $test."\n";
-            $test = (int)1.5;
-            echo $test."\n";
+        ```php
+        <?php
+        $test = (int)1.4;
+        echo $test."\n";
+        $test = (int)1.5;
+        echo $test."\n";
+        ```
 
       It will print:
       
-            1
-            1
+        ```
+        1
+        1
+        ```
 
 ## Constants
 
@@ -175,22 +197,28 @@
     * Because floating point numbers are actually being stored in the binary base 2, and it causes the loss of precision.
     * e.g.
 
-            $sum = 0.1 + 0.2;
-            echo $sum; // 0.3
-            echo ($sum === 0.3) ? "true" : "false"; // false
-			
+        ```php
+        $sum = 0.1 + 0.2;
+        echo $sum; // 0.3
+        echo ($sum === 0.3) ? "true" : "false"; // false
+        ```
+
     * Solutions:
         1. Test against the smallest acceptable difference.
-		
-                $sum = 0.1 + 0.2;
-                echo (abs($sum - 0.3) < 0.1) ? "true" : "false"; // true
+
+            ```php
+            $sum = 0.1 + 0.2;
+            echo (abs($sum - 0.3) < 0.1) ? "true" : "false"; // true
+            ```
 			
         2. Use PHP’s BC Math functions for handling the addition.
 		
-                // the third parameter specifies the precision after the floating point
-                $sum = bcadd(0.1, 0.2, 1);
-                echo $sum; // 0.3
-                echo ($sum === 0.3) ? "true" : "false"; // true
+            ```php
+            // the third parameter specifies the precision after the floating point
+            $sum = bcadd(0.1, 0.2, 1);
+            echo $sum; // 0.3
+            echo ($sum === 0.3) ? "true" : "false"; // true
+            ```
 		
     * [Reference](https://andy-carter.com/blog/don-t-trust-php-floating-point-numbers-when-equating)
 
@@ -204,14 +232,16 @@
 * Use an ampersand (**&**) for passed by reference.
     * e.g.
 
-            <?php
-            function cat_some_str(&$input_str) {
-                $input_str .= "cat.";
-            }
+        ```php
+        <?php
+        function cat_some_str(&$input_str) {
+            $input_str .= "cat.";
+        }
 
-            $str = "This is a ";
-            cat_come_str($str);
-            echo $str; // outputs "This is a cat."
+        $str = "This is a ";
+        cat_come_str($str);
+        echo $str; // outputs "This is a cat."
+        ```
 
 ## Type declarations
 
@@ -226,9 +256,11 @@
 	  
     * e.g.
 
-            <?php
-            function test(boolean $param) {}
-            test(true); // fatal error
+        ```php
+        <?php
+        function test(boolean $param) {}
+        test(true); // fatal error
+        ```
 	    
 ## Include
 
@@ -246,24 +278,30 @@
     * Variables inside it are converted to their values.
 * e.g.
 
-        <?php
-        $w = "world!!";
-        echo 'Hello $w'."\n";   //print: Hello $w
-        echo "Hello $w\n";    //print: Hello world!!
+    ```php
+    <?php
+    $w = "world!!";
+    echo 'Hello $w'."\n";   //print: Hello $w
+    echo "Hello $w\n";    //print: Hello world!!
+    ```
 
 ## mime_content_type
 
 * This function will return "text/plain" for css and js files instead of "test/css" or "text/javascript".
 * e.g.
 
-        <?php
-        echo mime_content_type("test.js")."\n";
-        echo mime_content_type("test.css")."\n";
+    ```php
+    <?php
+    echo mime_content_type("test.js")."\n";
+    echo mime_content_type("test.css")."\n";
+    ```
         
   result:
-  
-        text/plain
-        text/plain
+
+    ```php
+    text/plain
+    text/plain
+    ```
 
 ## Null coalescing operator
 
@@ -271,20 +309,26 @@
   It returns its first operand if it exists and is not NULL.
 * commmon case:
 
-        <?php
-        if (isset($_GET['user'])) {
-            $user = $_GET['user'];
-        } else {
-            $user = 'default';
-        }
+    ```php
+    <?php
+    if (isset($_GET['user'])) {
+        $user = $_GET['user'];
+    } else {
+        $user = 'default';
+    }
+    ```
 
   after PHP 7, we can do this with
 
-        $user = $_GET['user'] ?? 'default';
+    ```php
+    $user = $_GET['user'] ?? 'default';
+    ```
         
   Coalescing can be chained.
-  
-        $user = $_GET['user'] ?? $_POST['user'] ?? 'default';
+
+    ```php
+    $user = $_GET['user'] ?? $_POST['user'] ?? 'default';
+    ```
 
 ## Splat operator
 
@@ -294,21 +338,25 @@ Arrays and Traversable objects can be unpacked into argument lists by using the 
 
 * Function declaration
 
-        <?php
-        function add(...$input)
-        {
-            return array_sum($input);
-        }
-        var_dump(add(1, 2, 3) === 6);
+    ```php
+    <?php
+    function add(...$input)
+    {
+        return array_sum($input);
+    }
+    var_dump(add(1, 2, 3) === 6);
+    ```
 
 * Calling function
 
-        <?php
-        function add($a, $b, $c)
-        {
-            return $a + $b + $c;
-        }
-        var_dump(add(1, ...[2, 3]) === 6);
+    ```php
+    <?php
+    function add($a, $b, $c)
+    {
+        return $a + $b + $c;
+    }
+    var_dump(add(1, ...[2, 3]) === 6);
+    ```
 
 ## Regular Expression
 
@@ -326,10 +374,67 @@ Arrays and Traversable objects can be unpacked into argument lists by using the 
 * Return string with `<br />` or `<br>` inserted **before** all newlines (\r\n, \n\r, \n and \r).
 * e.g.
 
-        <?php
-        echo nl2br("foo\n bar");
+    ```php
+    <?php
+    echo nl2br("foo\n bar");
+    ```
 
   result:
 
-        foo<br />
-         bar
+    ```
+    foo<br />
+     bar
+    ```
+
+### array_merge() and array_replace()
+
+The behavior of array_merge and array_replace are almost the same except numeric keys (including numeric string) handling.
+
+* array_merge() will renumber all numeric indices with incrementing keys starting from zero and retain all values in numeric indices(no replace).
+
+  e.g.
+
+    ```php
+    <?php
+    $a = ["55" => 1, "56" => 2, "57" => 3];
+    $b = ["55" => 4, "100" => 5, "101" => 6];
+    print_r(array_merge($a, $b));
+    ```
+
+  result:
+
+    ```
+    Array
+    (
+        [0] => 1
+        [1] => 2
+        [2] => 3
+        [3] => 4
+        [4] => 5
+        [5] => 6
+    )
+    ```
+
+* array_replace() will not renumber numeric indices and replace all values in the first array if following arrays have the same key.
+
+  e.g.
+
+    ```php
+    <?php
+    $a = ["55" => 1, "56" => 2, "57" => 3];
+    $b = ["55" => 4, "100" => 5, "101" => 6];
+    print_r(array_replace($a, $b));
+    ```
+
+  result:
+
+    ```
+    Array
+    (
+        [55] => 4
+        [56] => 2
+        [57] => 3
+        [100] => 5
+        [101] => 6
+    )
+    ```
