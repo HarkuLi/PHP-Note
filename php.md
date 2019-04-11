@@ -160,6 +160,10 @@
         in class B
         ```
 
+### self::class in traits
+
+In general, self::class will return the name of current class. In trait, however, it will return **the name of the class which uses the trait** as of PHP 5.5.18, and return **the name of the trait** in PHP 5.5.5 and before. I am not sure about certain version for this change, but it's definitely changed between PHP 5.5.5 and PHP 5.5.18.
+
 ## Data Types
 
 * The PHP `var_dump()` function returns the data type and value.
