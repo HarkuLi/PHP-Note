@@ -442,3 +442,48 @@ The behavior of array_merge and array_replace are almost the same except numeric
         [101] => 6
     )
     ```
+
+### array_unique() and array_flip(array_flip())
+
+Both way makes elements in the array unique, but they have some differences.
+
+1. `array_unique()` will retain keys, but double `array_flip()` won't.
+2. Double `array_flip()` is faster. It is probably because of `array_unique()` retaining keys.
+
+#### speed comparison
+
+code:
+
+```php
+<?php
+$target = [];
+for ($i=0; $i<50; ++$i) {
+    $target[] = $i;
+    $target[] = $i;
+}
+
+$testCount = 100000;
+
+$start = microtime(true);
+for ($i=0; $i<$testCount; ++$i) {
+    array_unique($target);
+}
+$end = microtime(true);
+$cost = $end - $start;
+echo "array_unique cost: $cost\n";
+
+$start = microtime(true);
+for ($i=0; $i<$testCount; ++$i) {
+    array_flip(array_flip($target));
+}
+$end = microtime(true);
+$cost = $end - $start;
+echo "array_flip cost: $cost\n";
+```
+
+result:
+
+```
+array_unique cost: 0.43791103363037
+array_flip cost: 0.20182299613953
+```
